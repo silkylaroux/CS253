@@ -1,5 +1,5 @@
 CPPFLAGS=-Wall -Werror -Wextra -Wfatal-errors
-assignment=hw1
+assignment=vnum
 
 $(assignment): $(assignment).o
 	g++ $(CPPFLAGS) -o $@ $^
