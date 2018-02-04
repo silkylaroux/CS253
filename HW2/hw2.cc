@@ -8,20 +8,8 @@
 
 using namespace std;
 
-int bit_size;
-char tag;
-int num;
 
-int get_size(){
-    return bit_size;
-}
-
-char get_tag(){
-    return tag;
-}
-
-
-
+// helper method to see what the tag for an integer value is
 char check_tag_num(int num){
     char temp_tag;
     if(num < 32767){
@@ -73,42 +61,71 @@ void printNum(int input){
 void print_vector(vector<string> vec){
         int check =0;
         char tag;
-        for(auto str: vec){
-            if(str.at(0) == '"'){
 
+        for(auto str: vec){
+
+            if(str.at(0) == '"'){
+                int len =0;
+                stringstream buffer;
                 tag = 'S';
                 int holder = tag;
                 cout << hex << holder << " " << dec;
 
                 for(auto ch: str){
+                    len++;
                     if(ch != '"'){
                         int holder = ch;
-                        cout << hex << holder  << " "<< dec;
+                        buffer << hex << holder  << " "<< dec;
                     }
-                }      
-            }else if(str.at(0) != '\''){
+                }  
+
+                printNum(len-2);
+                cout << " " << buffer.str() << '\n';
+
+            }else if(isdigit(str.at(0)) || str.at(0) == '-'){
+
                 stringstream in(str);
-                int x = 0;
-                in >> x;
-                char ch = check_tag_num(x);
-                int holder = ch;
-                cout << ch << " " << hex << holder  << " "<< dec;
+                int x = 0;                  // These lines are used to create the
+                in >> x;                    // tag for the type of integer in the vector
+                tag = check_tag_num(x);
+                int tag_int = tag;
+                
+                cout << hex << tag_int  << " "<< dec;
                 printNum(x);
+
+                cout << '\n';
+
+            // This if statement checks if the first char is a ' and if there has been
+            // more than 1 it will make a space char because the line was split by empty
+            // spaces
             }else if(str.at(0) == '\'' && str.length() == 1){
+
                 check++;
-                if(check == 1){
+                if(check == 2){             // This is the check that another ' was found
+                    tag = 'c';
                     char ch = ' ';
-                    int holder = ch;
-                    cout << hex << holder << " " << dec;
+                    int space = ch;
+                    int holder = tag;
+
+                    cout << hex << holder << " "<< hex << space <<" " << dec<< '\n';
                     check = 0;
                 }
-            }else{
+            // This is the final case, and that is a char being inbetween a single
+            // quote. 
+            }else if(str.at(0) == '\''){
                 char ch = str.at(1);
-                int holder = ch;
-                cout << hex << holder << " " << dec;
+                int cha = ch;
+                int tag_int = tag;
+                cout << hex << tag_int << " " << hex << cha << " " << dec << '\n';
 
             }
-            cout << '\n';
+            // This is the error case in which a string, integer, or character
+            // was provided somewher in the file. This will end the program.
+            else{
+                cerr << " Using: ./hw2 the input of one of the lines"
+                << " is not a string, integer, or character\n";
+                exit(0);
+            }
         }
 
 }
@@ -116,37 +133,39 @@ void print_vector(vector<string> vec){
 
 
 int main(int argc, char **argv){
-    
+    if(argc == 1){
+        cerr << "Usage error"<< argv[0]<< " requires more arguments\n";
+    }
+    else{
     for(int x = 1; x < argc; x++){
         
         ifstream in_file(argv[x]);
+
         if(!in_file){
-            cerr << " Unable to open file: " << argv[x] << '\n';
+            cerr <<" Using: "<< argv[0]<< " Unable to open file: " << argv[x] << '\n';
         }
 
         string line;
         vector<string> tokens;
 
         while(getline(in_file, line)){
-                stringstream iss(line);
-                //vector<string> tokens;
-                if(line.length() != 0){
-                    if(line.at(0)=='"'){
-                        tokens.push_back(line);
-                    }else{
-                        for(string s; iss >> s; )
+
+            stringstream iss(line);
+
+            if(line.length() != 0){
+                if(line.at(0)=='"'){
+                    tokens.push_back(line);
+                }else{
+                    for(string s; iss >> s;){
                         tokens.push_back(s);
                     }
                 }
+            }
         }
-        for(auto tok: tokens){
-            cout << tok << '\n';
-        }
-        print_vector(tokens);
-        //cout<< '\n';
-        
+
+        print_vector(tokens);        
     }
-    
+    }
 
 return 0;
 }
