@@ -8,7 +8,7 @@
 
 using namespace std;
 
-
+// *** returns a char ***
 // helper method to see what the tag for an integer value is
 char check_tag_num(int num){
     char temp_tag;
@@ -122,7 +122,7 @@ void print_vector(vector<string> vec){
             // This is the error case in which a string, integer, or character
             // was provided somewher in the file. This will end the program.
             else{
-                cerr << " Using: ./hw2 the input of one of the lines"
+                cerr << " Using: ./hw2- the input of one of the lines"
                 << " is not a string, integer, or character\n";
                 exit(0);
             }

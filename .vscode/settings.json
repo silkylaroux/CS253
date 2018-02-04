@@ -4,6 +4,10 @@
         "*.tcc": "cpp",
         "sstream": "cpp",
         "istream": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iomanip": "cpp",
+        "iosfwd": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp"
     }
 }
