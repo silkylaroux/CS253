@@ -52,14 +52,14 @@ vector<string> parse(string str){
         }
         else if(begin_char == ' '){
 
-            return s;
+            str = str.substr(1);
 
         }else{
+            
             cout << begin_char; 
             cerr << "From [parser.cc] Incorrect input found: \n";
             exit(0);
         }
-        //str = str.substr(1);
     }
     return s;
 }

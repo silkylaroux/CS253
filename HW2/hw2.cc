@@ -23,7 +23,7 @@ char check_tag_num(long num){
     return temp_tag; 
 } 
  
-void printNum(long input){ 
+string string_from_num(long input){ 
   // Each if statement is checking to see how many bytes are needed 
     // Then it will but the hex value into a buffer which will be formatted 
     // later with spaces. 
@@ -46,17 +46,19 @@ void printNum(long input){
     }  
  
     string holder = buffer.str(); 
+    buffer.str("");
         while(holder.length()>0){ 
-            cout << holder.substr(0,2) << " "; 
+            buffer << holder.substr(0,2) << " "; 
             holder = holder.substr(2); 
         } 
+    return buffer.str();
  
 } 
  
 void print_vector(vector<string> vec){ 
  
     for(auto str: vec){ 
- 
+        stringstream buff;
         if(isdigit(str.at(0)) || str.at(0) == '-'){ 
  
             stringstream in(str); 
@@ -64,34 +66,30 @@ void print_vector(vector<string> vec){
             in >> x;                    // tag for the type of integer in the vector 
             int tag_int = check_tag_num(x); 
              
-            cout << hex << tag_int  << " "<< dec; 
-            printNum(x); 
- 
-            cout << '\n'; 
- 
+            buff << hex << tag_int  << " "<< dec << string_from_num(x) << '\n'; 
+         
         }else if(str.at(0) == '\''){ 
             int cha = str.at(1); 
             int tag_int = 'c'; 
  
-            cout << hex << tag_int << " " << hex << cha << " " << dec << '\n'; 
+            buff << hex << tag_int << " " << hex << cha << " " << dec << '\n'; 
  
         }else{ 
-            int len =0; 
-            stringstream buffer; 
+
             int tag_int = 'S'; 
-            cout << hex << tag_int << " " << dec; 
+            buff << hex << tag_int << " " << dec << string_from_num(str.length());
  
             for(auto ch: str){ 
-                len++; 
-                if(ch != '"'){ 
-                    int tag_int = ch; 
-                    buffer << hex << tag_int  << " "<< dec; 
-                } 
+
+                int tag_int = ch; 
+                buff << hex << tag_int  << " "<< dec; 
             }   
  
-            printNum(len); 
-            cout << " " << buffer.str() << '\n'; 
+             
+            buff << '\n'; 
         }    
+    cout << buff.str();
+    
     } 
 } 
  
