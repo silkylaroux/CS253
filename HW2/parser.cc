@@ -50,13 +50,16 @@ vector<string> parse(string str){
             str = str.substr(1);
             
         }
-        else{
-            //cerr << "out";
+        else if(begin_char == ' '){
+
             return s;
-            //exit(0);
+
+        }else{
+            cout << begin_char; 
+            cerr << "From [parser.cc] Incorrect input found: \n";
+            exit(0);
         }
-        //cout << str <<'\n';
-        str = str.substr(1);
+        //str = str.substr(1);
     }
     return s;
 }
