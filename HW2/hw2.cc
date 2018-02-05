@@ -7,27 +7,26 @@
  
 using namespace std; 
  
-// *** returns a char *** 
-// helper method to see what the tag for an integer value is 
+/*
+*   This is a helper method which takes in a number and returns a char based on 
+*   how big the value is. This is the tag that goes in front of the vnum
+*/
 char check_tag_num(long num){ 
     char temp_tag; 
-    if(num < 32767){ 
+    if(num < 32767 && num > -32768){ 
         temp_tag = 's'; 
     } 
-    if(num >= 32767 && num < 2147483647){ 
+    else if(num > -2147483648  && num < 2147483647){ 
         temp_tag = 'i'; 
     } 
-    if(num >= 2147483647){ 
+    else if(num >= 2147483647 || num <= -2147483648){ 
         temp_tag = 'l'; 
     } 
     return temp_tag; 
 } 
  
 string string_from_num(long input){ 
-  // Each if statement is checking to see how many bytes are needed 
-    // Then it will but the hex value into a buffer which will be formatted 
-    // later with spaces. 
- 
+
  stringstream buffer;  
   if(input >= -8 and input < 8){ 
     buffer << setfill('0') << setw(2) << hex << ((input & 0x0f)+(0x00 << 1)) << dec ; 
@@ -39,7 +38,7 @@ string string_from_num(long input){
     buffer << setfill('0') << hex << (((input & 0x0fffff) + (0x2 << 20))) << dec;          
    
   } else if (input >= -134217728 and input < 134217728){ 
-        buffer << setfill('0') << hex << ((input & 0x0fffffff) + (0x3 << 28)) << dec; 
+    buffer << setfill('0') << hex << ((input & 0x0fffffff) + (0x3 << 28)) << dec; 
    
   } else { 
     buffer << setfill('0') << hex << (((input & 0x0fffffffff) + (0x4000000000))) << dec; 
@@ -48,8 +47,8 @@ string string_from_num(long input){
     string holder = buffer.str(); 
     buffer.str("");
         while(holder.length()>0){ 
-            buffer << holder.substr(0,2) << " "; 
-            holder = holder.substr(2); 
+            buffer << holder.substr(0,2) << " ";    // This chunck of code puts formats the        
+            holder = holder.substr(2);              // string stream to have spacing before return
         } 
     return buffer.str();
  
@@ -62,8 +61,8 @@ void print_vector(vector<string> vec){
         if(isdigit(str.at(0)) || str.at(0) == '-'){ 
  
             stringstream in(str); 
-            long x = 0;                  // These lines are used to create the 
-            in >> x;                    // tag for the type of integer in the vector 
+            long x = 0;                             // These lines are used to create the 
+            in >> x;                                // tag for the type of integer in the vector 
             int tag_int = check_tag_num(x); 
              
             buff << hex << tag_int  << " "<< dec << string_from_num(x) << '\n'; 
@@ -89,7 +88,6 @@ void print_vector(vector<string> vec){
             buff << '\n'; 
         }    
     cout << buff.str();
-    
     } 
 } 
  
@@ -116,8 +114,8 @@ int main(int argc, char **argv){
                 stringstream buffer; 
                 buffer << line << " "; 
  
-                tokens = parse(buffer.str());   // This parses the line 
-                print_vector(tokens);           // This prints the vnum   
+                tokens = parse(buffer.str());   // This parses the line and creates a vector
+                print_vector(tokens);           // This prints the vector of vnum strings   
             } 
         } 
     } 
