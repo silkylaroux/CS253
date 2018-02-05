@@ -5,7 +5,6 @@
 #include <vector>
 #include <iterator>
 #include "test.h"
-
 using namespace std;
 
 vector<string> parse(string str){
