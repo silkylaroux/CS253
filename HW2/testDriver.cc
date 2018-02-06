@@ -5,22 +5,55 @@
 #include <vector>
 #include <iterator>
 #include <string>
-#include "test.h"
+#include "test2.h"
 
 using namespace std;
-int main(int argc, char **argv){
-    int holder = argc;
-    holder++;
-    vector<std::string> vec;
-    std::string str = "5 300 -1 " ;
-    string str2;
-    ifstream infile(argv[1]);
-    getline(infile,str2);
-    cout<< str2 <<"\n";
+int main(){
+    string str = "3 400 -222 ";
+    vector<string> s = parse(str);
 
-    vec = parse(str);
-    for( auto ch: vec){
-        cout << ch << "\n";
+    vector<Vnum> vnum_vec;
+    for(auto st: s){
+        Vnum num(st);
+        vnum_vec.push_back(num);
     }
+    for(auto p: vnum_vec){
+        cout << p.get_vnum();
+    }
+    
+    //cout << num.get_vnum();
+    //s.push_back(num);
     return 0;
 }
+
+int main(int argc, char **argv){ 
+ 
+    if(argc == 1){ 
+        cerr << "Usage error: "<< argv[0]<< " requires more arguments\n"; 
+    } 
+    else{ 
+        for(int x = 1; x < argc; x++){ 
+             
+            ifstream in_file(argv[x]); 
+ 
+            if(!in_file){ 
+
+                cerr <<" Using: "<< argv[0]<< " Unable to open file: " << argv[x] << '\n'; 
+            }
+            else{ 
+                string line; 
+                vector<string> tokens; 
+    
+                while(getline(in_file, line)){ 
+                    stringstream buffer; 
+                    buffer << line << " "; 
+    
+                    tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
+                    print_vector(tokens);           // From printer.cc This prints the vector of vnum strings   
+                }
+            } 
+        } 
+    } 
+     
+    return 0; 
+}   
