@@ -21,16 +21,35 @@ vector<string> parse(string str){
                 s.push_back(str.substr(0, holder));
                 str = str.substr(holder+1);   
 
-        } else if(begin_char== '\''){
+        } else if(begin_char== '\'' && str.length()>1){
+            str = str.substr(1);
 
-            if(str.length()>=4){
-                s.push_back(str.substr(0,3));
-                str = str.substr(3);
-            } 
+            int hol = str.find_first_of('\'');
 
-            if(str.length() == 3){
-                s.push_back(str);
-                str = str.substr(2);
+            if(hol < 9 && hol >1 ){
+                unsigned int hol2 = hol;
+                if( hol2 ==  str.find_first_not_of(' ')){
+                    s.push_back("\'\t\'");
+                    str = str.substr(8);}
+                else{
+                    cerr << "From [parser.cc] Incorrect input found: '" << str << '\n';
+                    exit(0);
+                }
+            }else if(hol == 1 ){
+                str = "\'"+str;
+               
+                if(str.length()>=4){
+                    s.push_back(str.substr(0,3));
+                    str = str.substr(3);
+                } 
+
+                if(str.length() == 3){
+                    s.push_back(str);
+                    str = str.substr(2);
+                }
+            }else{
+                cerr << "From [parser.cc] Incorrect input found: '" << str << '\n';
+                exit(0);
             }
 
         } else if(begin_char == '-' || isdigit(begin_char)){
@@ -38,7 +57,7 @@ vector<string> parse(string str){
             s.push_back(str.substr(0,holder));
             str = str.substr(holder);
             
-        } else if(begin_char == '\0' || begin_char == ' '){
+        } else if(begin_char == '\0' || isspace(begin_char)){
             str = str.substr(1);
             
         } else{

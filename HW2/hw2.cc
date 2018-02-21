@@ -31,7 +31,7 @@ int main(int argc, char **argv){
                 while(getline(in_file, line)){ 
                     stringstream buffer; 
                     buffer << line << " "; 
-    
+                    //cout << buffer.str();
                     tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
                     print_vector(tokens);           // From printer.cc This prints the vector of vnum strings   
                 }

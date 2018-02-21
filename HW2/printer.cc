@@ -80,7 +80,7 @@ void print_vector(vector<string> vec){
             int cha = str.at(1); 
             int tag_int = 'c'; 
  
-            buff << hex << tag_int << " " << hex << cha << " " << dec << '\n'; 
+            buff << hex << tag_int << " " << setfill('0') << setw(2) << hex << cha << " " << dec << '\n'; 
  
         } else{ 
             int tag_int = 'S'; 
