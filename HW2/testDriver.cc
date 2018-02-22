@@ -6,6 +6,8 @@
 #include <iterator>
 #include <string>
 #include "test2.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 using namespace std;
 /*int main(){
@@ -32,7 +34,25 @@ int main(int argc, char **argv){
         cerr << "Usage error: "<< argv[0]<< " requires more arguments\n"; 
     } 
     else{ 
-        for(int x = 1; x < argc; x++){ 
+        int c =0;
+        while ((c = getopt (argc, argv, "usv:")) != -1){
+            switch (c){
+                case 's':
+                    cout << "stuff\n";
+                    break;
+                case 'u':
+                    cout << "other stuff\n";
+                    break; 
+            }
+        }
+    //(c = getopt (argc, argv, "usv:"));
+    int holder = optind;
+    while(holder <= argc){
+        cout<<"file" << argv[holder]<<'\n';
+        holder++;
+    }
+    
+        /*for(int x = 1; x < argc; x++){ 
              
             ifstream in_file(argv[x]); 
  
@@ -48,11 +68,11 @@ int main(int argc, char **argv){
                     stringstream buffer; 
                     buffer << line << " "; 
                     cout << line.find_first_of('\t') << " \n";
-                    //tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
-                    //print_vector(tokens);           // From printer.cc This prints the vector of vnum strings   
+                    tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
+                    print_vector(tokens);           // From printer.cc This prints the vector of vnum strings   
                 }
             } 
-        } 
+        }*/ 
     } 
      
     return 0; 

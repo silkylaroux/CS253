@@ -49,16 +49,16 @@ string string_from_num(long input){
         buffer<<'4' << setfill('0')<< setw(9) << hex << (input & 0x0fffffffff) << dec; 
 
     } else if(input >= -140737488355328 && input < 140737488355328){     
-        buffer<<'5' << setfill('0')<< setw(11) << hex << (input & 0x0ffffffff) << dec;
-    
+        buffer<<'5' << setfill('0')<< setw(11) << hex << (input & 0x0fffffffff) << dec;
+
     } else if(input >= -36028797018963968 && input < 36028797018963968){ 
-        buffer<<'6' << setfill('0')<< setw(13) << hex << (input & 0x0ffffffffff) << dec;
+        buffer<<'6' << setfill('0')<< setw(13) << hex << (input & 0x0fffffffffff) << dec;
     
     } else if(input >= -576460752303423488 && input < 576460752303423488){
-        buffer<<'7' << setfill('0')<< setw(15) << hex << (input & 0x0ffffffffffff) << dec;
+        buffer<<'7' << setfill('0')<< setw(15) << hex << (input & 0x0fffffffffffff) << dec;
     
     }else{
-        buffer<<'8' << setfill('0')<< setw(17) << hex << (input & 0x0ffffffffffffff) << dec;
+        buffer<<'8' << setfill('0')<< setw(17) << hex << (input & 0x0fffffffffffffff) << dec;
 
     }
  
