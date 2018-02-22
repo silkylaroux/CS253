@@ -8,7 +8,7 @@
 #include "test2.h"
 
 using namespace std;
-int main(){
+/*int main(){
     string str = "3 400 -222 ";
     vector<string> s = parse(str);
 
@@ -24,7 +24,7 @@ int main(){
     //cout << num.get_vnum();
     //s.push_back(num);
     return 0;
-}
+} */
 
 int main(int argc, char **argv){ 
  
@@ -44,12 +44,12 @@ int main(int argc, char **argv){
                 string line; 
                 vector<string> tokens; 
     
-                while(getline(in_file, line)){ 
+                while(getline(in_file, line, '"')){ 
                     stringstream buffer; 
                     buffer << line << " "; 
-    
-                    tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
-                    print_vector(tokens);           // From printer.cc This prints the vector of vnum strings   
+                    cout << line.find_first_of('\t') << " \n";
+                    //tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
+                    //print_vector(tokens);           // From printer.cc This prints the vector of vnum strings   
                 }
             } 
         } 

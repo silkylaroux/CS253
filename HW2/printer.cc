@@ -14,13 +14,13 @@ using namespace std;
 char check_tag_num(long num){ 
     char temp_tag; 
 
-    if(num < 32767 && num > -32768){ 
+    if(num <= 32767 && num >= -32768){ 
         temp_tag = 's'; 
 
-    }else if(num > -2147483648  && num < 2147483647){ 
+    }else if(num >= -2147483648  && num <= 2147483647){ 
         temp_tag = 'i'; 
 
-    } else if(num >= 2147483647 || num <= -2147483648){ 
+    } else if(num > 2147483647 || num < -2147483648){ 
         temp_tag = 'l'; 
     } 
     return temp_tag; 
@@ -33,21 +33,34 @@ char check_tag_num(long num){
 string string_from_num(long input){ 
     stringstream buffer;  
 
-    if(input >= -8 and input < 8){ 
+    if(input >= -8 && input < 8){ 
         buffer << setfill('0') << setw(2) << hex << ((input & 0x0f)+(0x00 << 1)) << dec ; 
     
-    } else if(input >= -2048 and input < 2048){ 
-        buffer << setfill('0') << hex << (((input & 0x0fff) + (0x1 << 12))) << dec; 
+    } else if(input >= -2048 && input < 2048){ 
+        buffer<<'1' << setfill('0')<< setw(3) << hex << (input & 0x0fff) << dec;
     
-    } else if (input >= -524288 and input < 524288){ 
-        buffer << setfill('0') << hex << (((input & 0x0fffff) + (0x2 << 20))) << dec;          
+    } else if (input >= -524288 && input < 524288){ 
+        buffer<<'2' << setfill('0')<< setw(5) << hex << (input & 0x0fffff) << dec;
     
-    } else if (input >= -134217728 and input < 134217728){ 
-        buffer << setfill('0') << hex << ((input & 0x0fffffff) + (0x3 << 28)) << dec; 
+    } else if (input >= -134217728 && input < 134217728){ 
+        buffer<<'3' << setfill('0')<< setw(7) << hex << (input & 0x0fffffff) << dec;
     
-    } else { 
-        buffer << setfill('0') << hex << (((input & 0x0fffffffff) + (0x4000000000))) << dec; 
-        }  
+    } else if(input >= -549755813888 && input < 549755813888){ 
+        buffer<<'4' << setfill('0')<< setw(9) << hex << (input & 0x0fffffffff) << dec; 
+
+    } else if(input >= -140737488355328 && input < 140737488355328){     
+        buffer<<'5' << setfill('0')<< setw(11) << hex << (input & 0x0ffffffff) << dec;
+    
+    } else if(input >= -36028797018963968 && input < 36028797018963968){ 
+        buffer<<'6' << setfill('0')<< setw(13) << hex << (input & 0x0ffffffffff) << dec;
+    
+    } else if(input >= -576460752303423488 && input < 576460752303423488){
+        buffer<<'7' << setfill('0')<< setw(15) << hex << (input & 0x0ffffffffffff) << dec;
+    
+    }else{
+        buffer<<'8' << setfill('0')<< setw(17) << hex << (input & 0x0ffffffffffffff) << dec;
+
+    }
  
     string holder = buffer.str(); 
     buffer.str("");
@@ -88,7 +101,7 @@ void print_vector(vector<string> vec){
  
             for(auto ch: str){ 
                 int tag_int = ch; 
-                buff << hex << tag_int  << " "<< dec; 
+                buff << hex << setfill('0') << setw(2) << tag_int  << " "<< dec; 
             }   
             buff << '\n'; 
         }
