@@ -1,7 +1,7 @@
 CPPFLAGS=-Wall -Werror -Wextra -Wfatal-errors
-assignment= hw2
-MAKEFILE_LIST = hw2.cc parser.cc printer.cc test.h Makefile
-SOURCES = hw2.cc parser.cc printer.cc runner.cc
+assignment= hw3
+MAKEFILE_LIST = hw3.cc parser.cc printer.cc runner.cc test.h Makefile
+SOURCES = hw3.cc parser.cc printer.cc runner.cc unserParser.cc
 
 
 all:

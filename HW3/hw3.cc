@@ -23,11 +23,10 @@ int main(int argc, char **argv){
         while ((c = getopt (argc, argv, "usv:")) != -1){
             switch (c){
                 case 's':
-                    //cout << " optind: " << optind << " argc: "<<argc <<'\n';
-                    run_serialize(optind, argc, argv);
+                    run_serialize(optind, argc, argv);  // From runner.cc, it runs the specified option.
                     break;
                 case 'u':
-                    cout << "other stuff\n";
+                    run_unserialize(optind, argc, argv);
                     break; 
             }
         }

@@ -34,7 +34,6 @@ void run_serialize(int opt, int args_int, char **args_names){
         ifstream in_file(args_names[holder]); 
  
             if(!in_file){ 
-
                 cerr <<" Using: "<< args_names[0]<< " Unable to open file: " << args_names[holder] << '\n'; 
             }
             else{ 
@@ -62,7 +61,7 @@ int main(int argc, char **argv){
         while ((c = getopt (argc, argv, "usv:")) != -1){
             switch (c){
                 case 's':
-                    cout << " optind: " << optind << " argc: "<<argc <<'\n';
+                    //cout << " optind: " << optind << " argc: "<<argc <<'\n';
                     run_serialize(optind, argc, argv);
                     break;
                 case 'u':
@@ -70,52 +69,7 @@ int main(int argc, char **argv){
                     break; 
             }
         }
-    /*(c = getopt (argc, argv, "usv:"));
-    int holder = optind;
-    while(holder <= argc){
-        //cout<<"file" << argv[holder]<<'\n';
-        ifstream in_file(argv[holder]); 
- 
-            if(!in_file){ 
-
-                cerr <<" Using: "<< argv[0]<< " Unable to open file: " << argv[holder] << '\n'; 
-            }
-            else{ 
-                string line; 
-                vector<string> tokens; 
-    
-                while(getline(in_file, line, '"')){ 
-                    stringstream buffer; 
-                    buffer << line << " "; 
-                    //cout << buffer.str();
-                    tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
-                    print_vector(tokens);           // From printer.cc This prints the vector of vnum strings
-                }
-            } 
-        holder++;
-    }*/
-    
-        /*for(int x = 1; x < argc; x++){ 
-             
-            ifstream in_file(argv[x]); 
- 
-            if(!in_file){ 
-
-                cerr <<" Using: "<< argv[0]<< " Unable to open file: " << argv[x] << '\n'; 
-            }
-            else{ 
-                string line; 
-                vector<string> tokens; 
-    
-                while(getline(in_file, line, '"')){ 
-                    stringstream buffer; 
-                    buffer << line << " "; 
-                    cout << line.find_first_of('\t') << " \n";
-                    tokens = parse(buffer.str());   // From parser.cc This parses the line into vector
-                    print_vector(tokens);           // From printer.cc This prints the vector of vnum strings   
-                }
-            } 
-        }*/ 
+     
     } 
      
     return 0; 
