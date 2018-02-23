@@ -10,14 +10,39 @@
 #include <stdlib.h>
 
 using namespace std;
+
+long handle_int(string token_holder){
+    token_holder = token_holder.substr(2);
+    unsigned long len2;
+
+    char str1 = token_holder.at(0);
+    unsigned int ia = str1 - '0';
+    
+    if(token_holder.length()>= ((ia * 2)+1)){
+        string holder = token_holder.substr(1,((ia*2)+1));
+        stringstream ss2;
+        //ss << hex <<str1;
+        ss2 << hex <<holder;
+        
+        //ss >> len;
+        ss2 >> len2;
+
+
+        return len2;
+    }
+    return len2;
+}
+
+
+
 int main(){
     //string input = "73017302730373046321";
     //string input = "6321730573112c69407fffffff";
-    string input = "53100b4a61636b204170706c696e";
+    string input = "7301730273037304632153100b4a61636b204170706c696e";
     //69 40 7f ff ff ff 
     vector<string> s;
     if((input.length()%2)!=0){
-        cerr << " From [runner.cc]: not valid input unequal amount of hex values";
+        cerr << " From [runner.cc]: not valid input uneven amount of hex values";
         exit(1); 
     }else{
         string token_holder = input;
@@ -37,7 +62,7 @@ int main(){
             } else if(tag.compare("69")==0 || tag.compare("73") == 0 || tag.compare("6c")==0){
 //cout << "here0 "<< token_holder.substr(0,2)<< " char"<<'\n';
                 token_holder = token_holder.substr(2);
-cout << "here0 "<< token_holder.substr(0,2)<< " char"<<'\n';  
+//cout << "here0 "<< token_holder.substr(0,2)<< " char"<<'\n';  
                 if(token_holder.at(0)=='0'){
 //cout << "here\n";
                     s.push_back(token_holder.substr(1,1));      // just return the second hex value
@@ -60,7 +85,7 @@ cout << "here0 "<< token_holder.substr(0,2)<< " char"<<'\n';
 //cout << ia<< '\n';
 //cout << holder<< '\n';
 //cout << len2<< '\n';
-//cout << ss.str()<<'\n';
+cout << ss.str()<<'\n';
 //cout << ss.str() << '\n';
                         token_holder = token_holder.substr(((ia*2)));
                     }
@@ -85,21 +110,43 @@ cout << "here0 "<< token_holder.substr(0,2)<< " char"<<'\n';
 //cout << c<< holder << '\n';
                     s.push_back(holder);
 //cout << "token hold: "<< token_holder <<'\n';
-            }else if(tag.compare("53")==0){     // 100b4a61636b204170706c696e
+            }else if(tag.compare("53")==0){                                 // if string 
 //cout << "here2\n";
+                unsigned long x = handle_int(token_holder);
+
                 char str1 = token_holder.at(0);
                 unsigned int ia = str1 - '0';
-                if(token_holder.length()>(ia*2)){
-                    
+//cout <<x-11<< "subustr:" << token_holder.substr(ia+1)<<'\n';
+                stringstream buffer;
+                token_holder = token_holder.substr(ia+1);
+//cout << token_holder<<" "<<token_holder.substr(ia+1) <<'\n';
+                if(token_holder.length()>=(x*2)){
+                    //int y =0;
+                    for(unsigned int i =0; i < x;i++){
+                        stringstream ss;
+                        ss << hex << token_holder.substr(i,i+2);
+//cout << "strem" << ss.str() << '\n';
+                        long integer;
+                        char cha;
+                        ss >> integer;
+                        cha = integer;
+//cout<<"int: "<< integer << "\n char: " << cha <<'\n';
+                        ss.str("");
+                        buffer << cha;
+
+                    }
+//cout << "buff " << buffer.str() << '\n';
+                    s.push_back(buffer.str());
                 }
-                token_holder == token_holder.substr(2);
+                
             }
             token_holder.erase(0,2);
 
         }
-    for(auto ch:s){
+//cout << s.size();
+    for(unsigned int x = 0; x <s.size()-1; x++){
         
-        cout << "vector test " << ch << '\n';
+        cout << "vector test " << s[x] << '\n';
     }
     //cout << num.get_vnum();
     //s.push_back(num);
