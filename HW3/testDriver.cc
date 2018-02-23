@@ -12,84 +12,90 @@
 using namespace std;
 int main(){
     //string input = "73017302730373046321";
-    string input = "632163666369";
+    //string input = "6321730573112c69407fffffff";
+    string input = "53100b4a61636b204170706c696e";
+    //69 40 7f ff ff ff 
     vector<string> s;
     if((input.length()%2)!=0){
         cerr << " From [runner.cc]: not valid input unequal amount of hex values";
         exit(1); 
     }else{
         string token_holder = input;
-        //string check_sign = "";
-        //for(int i; token_holder.length()>0;i++){
-        bool not_zero = true;
-        while(not_zero){
+
+        while(token_holder.length() > 0){
             string tag = token_holder.substr(0,2);
             //token_holder == token_holder.substr(2);
-            //cout << token_holder.length() << "tag " << tag << '\n';
-            /*if(tag.compare("74")==0){                       // check if true
+//cout << "tag " << tag << '\n';
+//cout << "tag compare: " << tag << " num "<< tag.compare("73")<<'\n'; 
+            if(tag.compare("74")==0){                           // check if true
                 s.push_back("t");
-                //token_holder == token_holder.substr(2);
 
-            } else if(tag.compare("66")==0){                // check if false
+
+            } else if(tag.compare("66")==0){                    // check if false
                 s.push_back("f");
-                //token_holder == token_holder.substr(2);
 
             } else if(tag.compare("69")==0 || tag.compare("73") == 0 || tag.compare("6c")==0){
-                if(token_holder.at(0)=='0'){
-                    
-                    s.push_back(token_holder.substr(1,1)); // just return the second hex value
-                    //token_holder == token_holder.substr(2);
-                }else{
-                    //token_holder == token_holder.substr(2);
-                    char str1 = token_holder.at(0);
-                    stringstream ss;
-                    ss << str1;
-                    unsigned int len;
-                    ss >> len;
-                    if(token_holder.length()>= (len * 2)){
-                        //int i = 0;
-                        //for(unsigned int x = 2; x<len; x= x+2){
-                        //    stringstream hex_check;
-                        //    hex_check << hex << token_holder.substr(i,x);
-                        //}
-                        stringstream ss;
-                        ss << token_holder.substr(1,(len*2));
-                        //cout << ss.str() << '\n';
-                        token_holder = token_holder.substr(len*2);
-                    }
-                    token_holder = token_holder.substr(2);
-                }
-            } else*/ if(tag.compare("63")==0){                                           // if char
+//cout << "here0 "<< token_holder.substr(0,2)<< " char"<<'\n';
                 token_holder = token_holder.substr(2);
-                //cout << "tag compare: " << tag << " num "<< tag.compare("63")<<'\n';
-                if(tag.compare("63")==0){
-                    //cout << token_holder <<'\n';
+cout << "here0 "<< token_holder.substr(0,2)<< " char"<<'\n';  
+                if(token_holder.at(0)=='0'){
+//cout << "here\n";
+                    s.push_back(token_holder.substr(1,1));      // just return the second hex value
+
+                }else{
+                    char str1 = token_holder.at(0);
+                    unsigned int ia = str1 - '0';
+                    
+                    if(token_holder.length()>= ((ia * 2)+1)){
+                        string holder = token_holder.substr(1,((ia*2)+1));
+                        stringstream ss2;
+                        //ss << hex <<str1;
+                        ss2 << hex <<holder;
+                        unsigned int len2;
+                        //ss >> len;
+                        ss2 >> len2;
+                        stringstream ss;
+                        ss << len2;
+                        s.push_back(ss.str());
+//cout << ia<< '\n';
+//cout << holder<< '\n';
+//cout << len2<< '\n';
+//cout << ss.str()<<'\n';
+//cout << ss.str() << '\n';
+                        token_holder = token_holder.substr(((ia*2)));
+                    }
+//cout<< token_holder <<'\n';
+                    //token_holder = token_holder.substr(2);
+//cout<< token_holder <<'\n';
+                }
+            } else if(tag.compare("63")==0){                                // if char
+                token_holder = token_holder.substr(2);
+//cout << "tag compare: " << tag << " num "<< tag.compare("63")<<'\n';
+
                     string str1 = token_holder.substr(0,2);
-                    //cout << str1 << '\n';
+//cout << str1 << '\n';
                     stringstream ss;
                     ss << hex << str1;
                     unsigned int x;
                     ss >> x; 
                     char c = x;
-                    //ss.str("");
-                    //ss << c;
+
                     string holder;
                     holder.push_back(c);
-                    //cout << c<< holder << '\n';
+//cout << c<< holder << '\n';
                     s.push_back(holder);
-                    //cout << "token hold: "<< token_holder <<'\n';
-                                
+//cout << "token hold: "<< token_holder <<'\n';
+            }else if(tag.compare("53")==0){     // 100b4a61636b204170706c696e
+//cout << "here2\n";
+                char str1 = token_holder.at(0);
+                unsigned int ia = str1 - '0';
+                if(token_holder.length()>(ia*2)){
+                    
                 }
-            }else{
                 token_holder == token_holder.substr(2);
             }
-            //break;
-            token_holder.erase(0,2);// == token_holder.substr(1);
-            if(token_holder.length() <= 0){
-                not_zero = false;
-            }
-            //cout << token_holder.length();
-            //break;
+            token_holder.erase(0,2);
+
         }
     for(auto ch:s){
         
@@ -101,6 +107,15 @@ int main(){
     }
     return 0;
 } 
+
+
+
+
+
+
+
+
+
 
 /****************
 void run_serialize(int opt, int args_int, char **args_names){
