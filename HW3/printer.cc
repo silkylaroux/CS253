@@ -106,5 +106,11 @@ void print_vector(vector<string> vec){
             buff << '\n'; 
         }
         cout << buff.str();
-    } 
+    }
+}
+
+void print_uns_vector(vector<string> vec){
+    for(auto st: vec)
+    cout << st <<'\n';
 } 
+ 

@@ -58,8 +58,9 @@ void run_unserialize(int opt, int args_int, char **args_names){
                     }
 
                 }
-                cout<< unserial_parse(buffer.str());
-                
+                //cout<< unserial_parse(buffer.str());
+                vector<string> vec = unserial_parse(buffer.str());
+                print_uns_vector(vec);
                 //stringstream buffer;
             }
             //cout<< buffer.str(); 

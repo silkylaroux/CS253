@@ -32,7 +32,34 @@ bool is_hex_char(char ch){
     }
 
 }
-bool check_tag(string str){
+long handle_int(string token_holder){
+    token_holder = token_holder.substr(2);
+    unsigned long len2;
+
+    char str1 = token_holder.at(0);
+    unsigned int ia = str1 - '0';
+    
+    if(token_holder.length()>= ((ia * 2)+1)){
+        string holder = token_holder.substr(1,((ia*2)+1));
+        stringstream ss2;
+        ss2 << hex <<holder;
+        ss2 >> len2;
+        
+        return len2;
+    }
+    return len2;
+}
+char getchar_str(int i, string token_holder2){
+    unsigned long x;                 
+    stringstream ssnew;
+
+    ssnew<< hex <<token_holder2.substr(i,i+2);
+
+    ssnew >> x;
+    unsigned char cha;
+    cha = x;
+
+    return cha;
 
 }
 
@@ -50,7 +77,6 @@ vector<string> unserial_parse(string input){
             if(tag.compare("74")==0){                           // check if true
                 s.push_back("t");
 
-
             } else if(tag.compare("66")==0){                    // check if false
                 s.push_back("f");
 
@@ -62,17 +88,19 @@ vector<string> unserial_parse(string input){
                 }else{
                     char str1 = token_holder.at(0);
                     unsigned int ia = str1 - '0';
-                    
+//cout << "len: "<< ia;
                     if(token_holder.length()>= ((ia * 2)+1)){
                         string holder = token_holder.substr(1,((ia*2)+1));
+//cout << "str: " << holder <<'\n';
                         stringstream ss2;
-                        //ss << hex <<str1;
                         ss2 << hex <<holder;
-                        unsigned int len2;
-                        //ss >> len;
+                        unsigned long len2;
+//cout <<"len: " << len2<<'\n';
                         ss2 >> len2;
+//cout <<"len: " << len2<<'\n';
                         stringstream ss;
                         ss << len2;
+cout << "lon: "<< static_cast<long>(len2);
                         s.push_back(ss.str());
 
                         token_holder = token_holder.substr(((ia*2)));
@@ -94,43 +122,31 @@ vector<string> unserial_parse(string input){
                     s.push_back(holder);
 
             }else if(tag.compare("53")==0){                                 // if string 
-
                 unsigned long x = handle_int(token_holder);
-
+                
                 char str1 = token_holder.at(0);
                 unsigned int ia = str1 - '0';
-
+                
                 stringstream buffer;
                 token_holder = token_holder.substr(ia+1);
                 if(token_holder.length()>=(x*2)){
-
-                    for(unsigned int i =0; i < x;i++){
-                        stringstream ss;
-                        ss << hex << token_holder.substr(i,i+2);
-
-                        long integer;
-                        char cha;
-                        ss >> integer;
-                        cha = integer;
-
-                        ss.str("");
-                        buffer << cha;
-
+                    
+                    string temp = token_holder.substr(0,(x*2));
+                    while(temp.length()>0){
+                        buffer << getchar_str(0,temp); 
+                        temp = temp.substr(2);
                     }
+
+                    token_holder = token_holder.substr((x*2)-2);
                     s.push_back(buffer.str());
                 }
                 
+            }else{
+                cerr << "From: [unserParser.cc] incorrect input: " << tag << " is not a valid tag for a vnum.";
+                exit(1);
             }
             token_holder.erase(0,2);
-
         }
-    if(s.size()>1){
-        s.pop_back();
     }
-    for(unsigned int x = 0; x <s.size()-1; x++){
-        
-        cout << "vector test " << s[x] << '\n';
-    }
-    }
-
+    return s;
 }

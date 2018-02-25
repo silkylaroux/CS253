@@ -21,13 +21,9 @@ long handle_int(string token_holder){
     if(token_holder.length()>= ((ia * 2)+1)){
         string holder = token_holder.substr(1,((ia*2)+1));
         stringstream ss2;
-        //ss << hex <<str1;
         ss2 << hex <<holder;
-        
-        //ss >> len;
         ss2 >> len2;
-
-
+        
         return len2;
     }
     return len2;
