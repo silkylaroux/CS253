@@ -69,7 +69,6 @@ vector<string> unserial_parse(string input){
 
             } else if(tag.compare("69")==0 || tag.compare("73") == 0 || tag.compare("6c")==0){
                 token_holder = token_holder.substr(2);
-                
                 if(token_holder.at(0)=='0'){
                     s.push_back(token_holder.substr(1,1));      // just return the second hex value
 
@@ -79,6 +78,8 @@ vector<string> unserial_parse(string input){
 
                     if(token_holder.length()>= ((ia * 2)+1)){
                         string holder = token_holder.substr(1,((ia*2)+1));  // temp var with actual value
+
+                        //stringstream ss2;
                         long long numVal;
 
                         if(is_negative(holder.at(0))){
@@ -99,6 +100,7 @@ vector<string> unserial_parse(string input){
 
                         token_holder = token_holder.substr(((ia*2)));
                     }
+
                 }
             } else if(tag.compare("63")==0){                                // if char
                 token_holder = token_holder.substr(2);

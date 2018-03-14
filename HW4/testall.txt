@@ -1,0 +1,12 @@
+34374
+
+        -84
+        'g'
+"all type of test data"
+
+        7666555444
+'`'
+
+false
+true
+" THANK	you	"
