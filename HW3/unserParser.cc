@@ -12,26 +12,6 @@
 #include "unserParser.h"
 using namespace std;
 
-bool is_hex_char(char ch){
-    char small_ch = tolower(ch);
-    switch(small_ch){
-        case 'a':
-            return true;
-        case 'b':
-            return true;
-        case 'c':
-            return true;
-        case 'd':
-            return true;
-        case 'e':
-            return true;
-        case 'f':
-            return true;
-        default:
-            return false;
-    }
-
-}
 long handle_int(string token_holder){
     token_holder = token_holder.substr(2);
     unsigned long len2;
@@ -60,13 +40,20 @@ char getchar_str(int i, string token_holder2){
     cha = x;
 
     return cha;
+}
 
+bool is_negative(char ch){
+    string checker = "89ABCDEFabcdef";
+    if (checker.find(ch) != string::npos){
+        return true;
+    }
+    return false;
 }
 
 vector<string> unserial_parse(string input){
     vector<string> s;
     if((input.length()%2)!=0){
-        cerr << " From [runner.cc]: not valid input uneven amount of hex values";
+        cerr << " From [unserParser.cc]: not valid input uneven amount of hex values";
         exit(1); 
     }else{
         string token_holder = input;
@@ -88,23 +75,32 @@ vector<string> unserial_parse(string input){
                 }else{
                     char str1 = token_holder.at(0);
                     unsigned int ia = str1 - '0';
-//cout << "len: "<< ia;
+
                     if(token_holder.length()>= ((ia * 2)+1)){
-                        string holder = token_holder.substr(1,((ia*2)+1));
-//cout << "str: " << holder <<'\n';
-                        stringstream ss2;
-                        ss2 << hex <<holder;
-                        unsigned long len2;
-//cout <<"len: " << len2<<'\n';
-                        ss2 >> len2;
-//cout <<"len: " << len2<<'\n';
+                        string holder = token_holder.substr(1,((ia*2)+1));  // temp var with actual value
+
+                        //stringstream ss2;
+                        long long numVal;
+
+                        if(is_negative(holder.at(0))){
+                            numVal = strtoll((holder.c_str()), NULL, 16);
+
+                            if (numVal >= (1LL << ((holder.length()*4) - 1))){
+                                numVal -= (1LL << (holder.length()*4));
+                            }
+
+                        }else{
+                            numVal = strtoull(holder.c_str(), NULL, 16);
+                        }
+
                         stringstream ss;
-                        ss << len2;
-cout << "lon: "<< static_cast<long>(len2);
+                        ss << numVal;
+                        
                         s.push_back(ss.str());
 
                         token_holder = token_holder.substr(((ia*2)));
                     }
+
                 }
             } else if(tag.compare("63")==0){                                // if char
                 token_holder = token_holder.substr(2);

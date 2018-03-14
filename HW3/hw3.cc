@@ -27,7 +27,13 @@ int main(int argc, char **argv){
                     break;
                 case 'u':
                     run_unserialize(optind, argc, argv);
-                    break; 
+                    break;
+                case 'v':
+                    if(argc>=optind){
+                        cout << "Processing file "<<argv[optind-1]<<'\n';
+                    }
+                    break;
+                     
             }
         }
      

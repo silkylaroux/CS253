@@ -95,6 +95,12 @@ void print_vector(vector<string> vec){
  
             buff << hex << tag_int << " " << setfill('0') << setw(2) << hex << cha << " " << dec << '\n'; 
  
+        } else if(str.compare("false")==0){
+            buff << "66"<<'\n';
+            
+        }else if(str.compare("true")==0){
+            buff<< "74"<<'\n';
+            
         } else{ 
             int tag_int = 'S'; 
             buff << hex << tag_int << " " << dec << string_from_num(str.length());

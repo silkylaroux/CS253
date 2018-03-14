@@ -30,9 +30,51 @@ long handle_int(string token_holder){
 }
 
 
+string GetBinaryStringFromHexString (string sHex)
+		{
+			string sReturn = "";
+			for (int i = 0; i < sHex.length (); ++i)
+			{
+				switch (sHex [i])
+				{
+					case '0': sReturn.append ("0000"); break;
+					case '1': sReturn.append ("0001"); break;
+					case '2': sReturn.append ("0010"); break;
+					case '3': sReturn.append ("0011"); break;
+					case '4': sReturn.append ("0100"); break;
+					case '5': sReturn.append ("0101"); break;
+					case '6': sReturn.append ("0110"); break;
+					case '7': sReturn.append ("0111"); break;
+					case '8': sReturn.append ("1000"); break;
+					case '9': sReturn.append ("1001"); break;
+					case 'a': sReturn.append ("1010"); break;
+					case 'b': sReturn.append ("1011"); break;
+					case 'c': sReturn.append ("1100"); break;
+					case 'd': sReturn.append ("1101"); break;
+					case 'e': sReturn.append ("1110"); break;
+					case 'f': sReturn.append ("1111"); break;
+				}
+			}
+			return sReturn;
+		}
 
 int main(){
-    //string input = "73017302730373046321";
+    string test = "69407fffffff";
+    cout << GetBinaryStringFromHexString(test);
+    /*string test = "false";
+    cout << test.length();
+    if(test.substr(0,4).compare("true")==0){
+        //s.push_back("true");
+        cout << "t";
+    }else if(test.substr(0,5).compare("false")==0){
+        //s.push_back("false");
+        cout <<"f";
+    }else{
+        cerr << "From [parser.cc] Incorrect input found: " << test << '\n';
+        exit(0);
+    }*/
+}
+/*    //string input = "73017302730373046321";
     //string input = "6321730573112c69407fffffff";
     string input = "7301730273037304632153100b4a61636b204170706c696e";
     //69 40 7f ff ff ff 
@@ -151,7 +193,7 @@ cout << ss.str()<<'\n';
     return 0;
 } 
 
-
+*/
 
 
 

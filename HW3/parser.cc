@@ -27,12 +27,10 @@ vector<string> parse(string str){
             str = str.substr(1);
 
             int hol = str.find_first_of('\'');
-            //cout <<"str len: "<< str.length()<< " holder int: " << hol << '\n';
             if(hol < 9 && hol >1 ){
                 unsigned int hol2 = hol;
                 if( hol2 ==  str.find_first_not_of(' ')){
-                    //cout << "holder2 int: " << hol2 << " find not space"<< str.find_first_not_of(' ')<<'\n';
-                    //cout << "sub "<< str.substr(hol2)<< '\n';
+
                     s.push_back("\'\t\'");
                     str = str.substr(hol2+1);}
                 //else{
@@ -64,6 +62,17 @@ vector<string> parse(string str){
         } else if(begin_char == '\0' || isspace(begin_char)){
             str = str.substr(1);
             
+        }else if((begin_char == 'f'|| begin_char =='t') && str.length()>=5){
+                if(str.substr(0,4).compare("true")==0){
+                    s.push_back("true");
+                    str = str.substr(4);
+                }else if(str.substr(0,5).compare("false")==0){
+                    s.push_back("false");
+                    str = str.substr(5);
+                }else{
+                    cerr << "From [parser.cc] Incorrect input found: " << str << '\n';
+                    exit(0);
+                }
         } else{
             cerr << "From [parser.cc] Incorrect input found: " << str << '\n';
             exit(0);
