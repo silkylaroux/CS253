@@ -62,10 +62,10 @@ vector<string> unserial_parse(string input){
             string tag = token_holder.substr(0,2);
  
             if(tag.compare("74")==0){                           // check if true
-                s.push_back("t");
+                s.push_back("true");
 
             } else if(tag.compare("66")==0){                    // check if false
-                s.push_back("f");
+                s.push_back("false");
 
             } else if(tag.compare("69")==0 || tag.compare("73") == 0 || tag.compare("6c")==0){
                 token_holder = token_holder.substr(2);
@@ -119,7 +119,7 @@ vector<string> unserial_parse(string input){
 
             }else if(tag.compare("53")==0){                                 // if string 
                 unsigned long x = handle_int(token_holder);
-                
+//cout << token_holder << "str: \n";
                 char str1 = token_holder.at(0);
                 unsigned int ia = str1 - '0';
                 
