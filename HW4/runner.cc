@@ -37,7 +37,7 @@ void run_serialize(int opt, int args_int, char **args_names){
     }
 }
 void run_ser(string st){
-    cout << st<< '\n';
+    //cout << st<< '\n';
     vector<string> tokens;
     stringstream buffer;
     buffer <<st <<" ";
@@ -46,14 +46,14 @@ void run_ser(string st){
     print_vector(tokens);
 }
 
-void run_unser(string st){
-    cout << st<< '\n';
+string run_unser(string st){
+    //cout << st<< '\n';
     vector<string> tokens;
     stringstream buffer;
     buffer <<st;
 
     vector<string> vec = unserial_parse(buffer.str());
-    print_uns_vector(vec);
+    return print_uns_vector(vec);
 }
 
 void run_unserialize(int opt, int args_int, char **args_names){

@@ -115,8 +115,11 @@ void print_vector(vector<string> vec){
     }
 }
 
-void print_uns_vector(vector<string> vec){
-    for(auto st: vec)
-    cout << st <<'\n';
+string print_uns_vector(vector<string> vec){
+    stringstream buffer;
+    for(auto st: vec){
+        buffer << st <<'\n';
+    }
+    return buffer.str();
 } 
  
