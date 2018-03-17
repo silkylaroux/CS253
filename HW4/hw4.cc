@@ -32,20 +32,21 @@ void de_hexify(string input, std::ostream& os){
     //string st;
     input = remove_spaces(input);   
 // cout <<"\ninput: " << input <<'\n';
-    int i_hex;
+    //int i_hex;
     //for (int x = 0; x < input.length()-1; x+=2){
     while(input.length()>1){
         stringstream ss;
         ss << input.substr(0,2);
-// cout << "de_hex" << ss.str() << '\n';
+//cout << "de_hex" << ss.str() << '\n';
         unsigned int value;
         ss >> std::hex >> value;
+//cout << "de_hex: ch" << value << '\n';
         //unsigned int temp = sHex; // sHex holds the full hex value (including nibble) ex: 8 -> 0x1008
         value = value & 0xff; // takes one byte at a time, starting with most significant
-//cout << char(value);
+//cout << "de_hex" << char(value) << '\n';
         os << char(value); 
         s += char(value);
-//cout << value<<"hmmm\n";
+// cout << value<<" hmmm\n";
         //is >> hex >> i_hex;
 //cout<< setfill('0')<< setw(2)<<hex<<i_hex<<'\n';
 
@@ -71,7 +72,7 @@ void serialize(bool b, std::ostream & os){
         str = run_ser("false");
         de_hexify(str,os);
     } 
-    cout << str;   
+//cout << str;   
 }
 void serialize(short s, std::ostream & os){
     string str = to_string(s);
@@ -80,8 +81,7 @@ void serialize(short s, std::ostream & os){
     str.insert(0,"73");
 
     de_hexify(str, os);
-    cout << str;
-
+//cout << str;
 }
 void serialize(int i, std::ostream & os){
     string str = to_string(i);
@@ -90,7 +90,7 @@ void serialize(int i, std::ostream & os){
     str.insert(0,"69");
 
     de_hexify(str, os);
-    cout << str;
+//cout << str;
 }
 void serialize(long l, std::ostream & os){
     string str = to_string(l);
@@ -99,7 +99,7 @@ void serialize(long l, std::ostream & os){
     str.insert(0,"6c");
 
     de_hexify(str, os);
-    cout << str;
+//cout << str;
 }
 void serialize(char c, std::ostream & os){
     stringstream ss;
@@ -107,7 +107,7 @@ void serialize(char c, std::ostream & os){
     string str = run_ser(ss.str());
     de_hexify(str,os);
 
-    cout << run_ser(ss.str());
+//cout << run_ser(ss.str());
 }
 void serialize(const std::string& strg, std::ostream & os){
     stringstream ss;
@@ -115,7 +115,7 @@ void serialize(const std::string& strg, std::ostream & os){
     string str = run_ser(ss.str());
     de_hexify(str,os);
 
-    cout << run_ser(ss.str());
+//cout << run_ser(ss.str());
 }
 
 // This is a helper method that takes a string, and turns each char
@@ -123,7 +123,7 @@ void serialize(const std::string& strg, std::ostream & os){
 // example: hexify("Jack")  returns "4a61636b"
 string hexify(string input){
     stringstream str;
-    for (int i = 0; i < input.length(); i++)
+    for (unsigned int i = 0; i < input.length(); i++)
     {
         unsigned char x = input.at(i);
         str<< setfill('0')<<setw(2) <<hex << int(x);
@@ -150,7 +150,7 @@ void unserialize(std::istream & is, int & i){
     string st = run_unser(hexify(s));
 
     istringstream (st) >> i;
-cout << i << '\n';
+//cout << i << '\n';
 }
 
 void unserialize(std::istream & is, short & sh){
@@ -159,7 +159,7 @@ void unserialize(std::istream & is, short & sh){
     string st = run_unser(hexify(s));
 
     istringstream (st) >> sh;
-cout << sh << '\n';
+//cout << sh << '\n';
 }
 
 void unserialize(std::istream & is , long & l){
@@ -168,7 +168,7 @@ void unserialize(std::istream & is , long & l){
     string st = run_unser(hexify(s));
 
     istringstream (st) >> l;
-cout << l << '\n';
+//cout << l << '\n';
 }
 
 void unserialize(std::istream & is, char & c){
@@ -177,7 +177,7 @@ void unserialize(std::istream & is, char & c){
     string st = run_unser(hexify(s));
 
     istringstream (st) >> c;
-cout << c << '\n';
+//cout << c << '\n';
 }
 
 void unserialize(std::istream & is, std::string & st){
@@ -189,66 +189,71 @@ void unserialize(std::istream & is, std::string & st){
     s = hexify(ss.str());
     st = run_unser(s);
     st.pop_back();                          // removes unwanted \n from back
-cout << st << '\n';
+//cout << st << '\n';
 }
 
-int main(){
-    cout << "serialized!\n";
-    ostringstream oss; 
-    bool t = true;
-    serialize(t,oss);
-    assert(oss.str()=="t");
+// int main(){
+//     cout << "serialized!\n";
+//     ostringstream oss; 
+//     bool t = true;
+//     serialize(t,oss);
+//     assert(oss.str()=="t");
 
-    ostringstream osssh; 
-    serialize(short(8), osssh);		  // ctor “cast”
-    assert(osssh.str() == "s" "\x10\x08");
+//     ostringstream osssh; 
+//     serialize(short(8), osssh);		  // ctor “cast”
+//     assert(osssh.str() == "s" "\x10\x08");
 
-    ostringstream ossi;
-    serialize(int(8),ossi);
-    assert(ossi.str() == "i" "\x10\x08");
+//     ostringstream ossi;
+//     serialize(int(8),ossi);
+//     assert(ossi.str() == "i" "\x10\x08");
 
-    oss.str("");
-    serialize(0x123456789abcdef0L, oss);
-    assert(oss.str() == "l\x80\x12\x34\x56\x78\x9a\xbc\xde\xf0"s);
+//     oss.str("");
+//     serialize(0x123456789abcdef0L, oss);
+//     assert(oss.str() == "l\x80\x12\x34\x56\x78\x9a\xbc\xde\xf0"s);
 
-    serialize('c',oss);
-    string str = "Jack";
-    serialize(str,oss);
+//     oss.str("");
+//     serialize('c',oss);
+//     assert(oss.str() == "\x63\x63"s);
+
+//     oss.str("");
+//     string str = "Jack";
+//     serialize(str,oss);
+//     assert(oss.str() == "\x53\x04\x4a\x61\x63\x6b"s);
     
-    cout << "\nunserialized!\n";
-    bool b1, b2;
-    istringstream iss;
-    iss.str("tf");
-    unserialize(iss, b1); unserialize(iss, b2); assert(b1 && !b2);
+//     cout << "\nunserialized!\n";
+//     bool b1, b2;
+//     istringstream iss;
+//     iss.str("tf");
+//     unserialize(iss, b1); unserialize(iss, b2); assert(b1 && !b2);
 
-    istringstream isss;
-    string st;
-    isss.str("S\x10\x0c"s "kakistocracy");
-    unserialize(isss, st); assert(st == "kakistocracy");
+//     istringstream isss;
+//     string st;
+//     isss.str("S\x10\x0c"s "kakistocracy");
+//     unserialize(isss, st); assert(st == "kakistocracy");
 
-    istringstream issc;
-    char c;
-    issc.str("\x63\x21"s);
-    unserialize(issc, c);
+//     istringstream issc;
+//     char c;
+//     issc.str("\x63\x21"s);
+//     unserialize(issc, c); assert (c == '!');
 
-    istringstream iss2;
-    int i;
-    iss2.str({'i', '\x2e', '\x1d', '\xc0'});
-    unserialize(iss2, i); //assert(i == -123456);
+//     istringstream iss2;
+//     int i;
+//     iss2.str({'i', '\x2e', '\x1d', '\xc0'});
+//     unserialize(iss2, i); assert(i == -123456);
     
-    istringstream iss3;
-    short s;
-    iss3.str({'s', '\x1f','\xac'});
-    unserialize(iss3, s); //assert(s == -123456);
+//     istringstream iss3;
+//     short s;
+//     iss3.str({'s', '\x1f','\xac'});
+//     unserialize(iss3, s); assert(s == -84);
 
-    //6c 41 c8 f6 5a 34
-    istringstream iss4;
-    long l;
-    iss4.str({'l', '\x41', '\xc8', '\xf6', '\x5a', '\x34'});
-    unserialize(iss4, l); //assert(i == -123456);
-    //iss.str("");
+//     //6c 41 c8 f6 5a 34
+//     istringstream iss4;
+//     long l;
+//     iss4.str({'l', '\x41', '\xc8', '\xf6', '\x5a', '\x34'});
+//     unserialize(iss4, l); assert(l == 7666555444);
+//     //iss.str("");
 
 
-}
+// }
 
 

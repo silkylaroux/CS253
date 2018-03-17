@@ -11,35 +11,35 @@ using namespace std;
 * This is a helper method which takes in a number and returns a char based on 
 * how big the value is. This is the tag that goes in front of the vnum
 */
-char check_tag_num(short num){ 
-    char temp_tag; 
+// char check_tag_num(short num){ 
+//     char temp_tag; 
 
-    if(num <= 32767 && num >= -32768){ 
-        temp_tag = 's'; 
+//     if(num <= 32767 && num >= -32768){ 
+//         temp_tag = 's'; 
 
-    }else if(num >= -2147483648  && num <= 2147483647){ 
-        temp_tag = 'i'; 
+//     }else if(num >= -2147483648  && num <= 2147483647){ 
+//         temp_tag = 'i'; 
 
-    } else if(num > 2147483647 || num < -2147483648){ 
-        temp_tag = 'l'; 
-    } 
-    return temp_tag; 
-} 
-char check_tag_num(int num){ 
-    char temp_tag; 
+//     } else if(num > 2147483647 || num < -2147483648){ 
+//         temp_tag = 'l'; 
+//     } 
+//     return temp_tag; 
+// } 
+// char check_tag_num(int num){ 
+//     char temp_tag; 
 
-    // if(num <= 32767 && num >= -32768){ 
-    //     temp_tag = 's'; 
+//     // if(num <= 32767 && num >= -32768){ 
+//     //     temp_tag = 's'; 
 
-    // }else 
-    if(num >= -2147483648  && num <= 2147483647){ 
-        temp_tag = 'i'; 
+//     // }else 
+//     if(num >= -2147483648  && num <= 2147483647){ 
+//         temp_tag = 'i'; 
 
-    } else if(num > 2147483647 || num < -2147483648){ 
-        temp_tag = 'l'; 
-    } 
-    return temp_tag; 
-} 
+//     } else if(num > 2147483647 || num < -2147483648){ 
+//         temp_tag = 'l'; 
+//     } 
+//     return temp_tag; 
+// } 
 char check_tag_num(long num){ 
     char temp_tag; 
 
@@ -109,6 +109,7 @@ string string_from_num(long input){
 * sequentially the proper vnum for the string inside. It makes use of helper functions.
 */
 string print_vector(vector<string> vec){ 
+    string ret;
     for(auto str: vec){ 
         stringstream buff;
         
@@ -141,8 +142,9 @@ string print_vector(vector<string> vec){
             }   
             buff << '\n'; 
         }
-        return buff.str();
+        ret = buff.str();
     }
+    return ret;
 }
 
 string print_uns_vector(vector<string> vec){
