@@ -9,83 +9,123 @@
 #include <unistd.h>
 #include <stdlib.h>
 using namespace std; 
- 
 
-/*
-* Driver, and file reader for hw2 uses printer.cc and parser.cc through header file.
-*/
-/*int main(int argc, char **argv){ 
- 
-    if(argc == 1){ 
-        cerr << "Usage error: "<< argv[0]<< " requires more arguments\n"; 
-    } 
-    else{ 
-        int c =0;
-        while ((c = getopt (argc, argv, "usv:")) != -1){
-            switch (c){
-                case 's':
-                    run_serialize(optind, argc, argv);  // From runner.cc, it runs the specified option.
-                    break;
-                case 'u':
-                    run_unserialize(optind, argc, argv);
-                    break;
-                case 'v':
-                    if(argc>=optind){
-                        cout << "Processing file "<<argv[optind-1]<<'\n';
-                    }
-                    break;
-                     
-            }
+string remove_spaces(string str) 
+{
+//cout << "rm_sp" << str << '\n';
+    string retStr;
+    for(auto ch: str ){
+//cout << "rm_sp ch:" << ch << '\n';
+        if(ch!=' '){
+//cout << "rm_sp ch:" << ch << '\n';
+            retStr.push_back(ch);
+            
         }
-     
-    } 
-     
-    return 0; 
-}   
-*/   
+    }
+//cout << retStr;
+    return retStr;
+}
 
+void de_hexify(string input, std::ostream& os){
+    //stringstream ss;
+    string s;
+    //string st;
+    input = remove_spaces(input);   
+// cout <<"\ninput: " << input <<'\n';
+    int i_hex;
+    //for (int x = 0; x < input.length()-1; x+=2){
+    while(input.length()>1){
+        stringstream ss;
+        ss << input.substr(0,2);
+// cout << "de_hex" << ss.str() << '\n';
+        unsigned int value;
+        ss >> std::hex >> value;
+        //unsigned int temp = sHex; // sHex holds the full hex value (including nibble) ex: 8 -> 0x1008
+        value = value & 0xff; // takes one byte at a time, starting with most significant
+//cout << char(value);
+        os << char(value); 
+        s += char(value);
+//cout << value<<"hmmm\n";
+        //is >> hex >> i_hex;
+//cout<< setfill('0')<< setw(2)<<hex<<i_hex<<'\n';
 
-void serialize(bool b, std::ostream &){
+//cout << i_hex;
+        //ss << setw(2)<<hex<< i_hex;
+        //os<< value;
+        input = input.substr(2);
+    }
+//cout << s.at(1) <<" "<< "\x10\x08"<<'\n';
+//cout << hex << ss.str().at(1) << "comp: " << '\x10' << '\n';
+//cout <<ss.str().compare("s" "\x10\x08");
+
+//cout << os.str();
+} 
+
+void serialize(bool b, std::ostream & os){
+    string str;
     if(b){
-        run_ser("true");
-    }else{
-        run_ser("false");
-    }    
-}
+        str = run_ser("true");
+        de_hexify(str,os);
 
-void serialize(short s, std::ostream &){
+    }else{
+        str = run_ser("false");
+        de_hexify(str,os);
+    } 
+    cout << str;   
+}
+void serialize(short s, std::ostream & os){
     string str = to_string(s);
-    run_ser(str);
+    str = run_ser(str);
+    str = str.substr(2,str.length());
+    str.insert(0,"73");
+
+    de_hexify(str, os);
+    cout << str;
+
 }
-void serialize(int i, std::ostream &){
+void serialize(int i, std::ostream & os){
     string str = to_string(i);
-    run_ser(str);
+    str = run_ser(str);
+    str = str.substr(2,str.length());
+    str.insert(0,"69");
+
+    de_hexify(str, os);
+    cout << str;
 }
-void serialize(long l, std::ostream &){
+void serialize(long l, std::ostream & os){
     string str = to_string(l);
-    run_ser(str);
+    str = run_ser(str);
+    str = str.substr(2,str.length());
+    str.insert(0,"6c");
+
+    de_hexify(str, os);
+    cout << str;
 }
-void serialize(char c, std::ostream &){
+void serialize(char c, std::ostream & os){
     stringstream ss;
     ss <<'\'' << c << '\'';
-    run_ser(ss.str());
-}
+    string str = run_ser(ss.str());
+    de_hexify(str,os);
 
-void serialize(const std::string& str, std::ostream &){
+    cout << run_ser(ss.str());
+}
+void serialize(const std::string& strg, std::ostream & os){
     stringstream ss;
-    ss <<'\"' << str << '\"';
-    run_ser(ss.str());
+    ss <<'\"' << strg << '\"';
+    string str = run_ser(ss.str());
+    de_hexify(str,os);
+
+    cout << run_ser(ss.str());
 }
 
+// This is a helper method that takes a string, and turns each char
+// in the string into a "hex" string 
+// example: hexify("Jack")  returns "4a61636b"
 string hexify(string input){
     stringstream str;
-//cout << input <<" " << input.length()<< "x:\n";
     for (int i = 0; i < input.length(); i++)
     {
         unsigned char x = input.at(i);
-//cout << x <<'\n';
-//cout << setw(2) << hex << x<<'\n';
-        
         str<< setfill('0')<<setw(2) <<hex << int(x);
     }
     return str.str();
@@ -93,11 +133,8 @@ string hexify(string input){
 
 void unserialize(std::istream& is, bool& b){
     char c;
-    //s = is.get();
     is >> c;
-//cout <<"s:" << s << '\n';
-    //string st = run_unser(hexify(s));
-//cout << st <<'\n';
+
     if(c == 't'){
         b = true;
     }else if(c == 'f'){
@@ -107,55 +144,50 @@ void unserialize(std::istream& is, bool& b){
     }
 }
 
-void unserialize(std::istream & is, int &){
+void unserialize(std::istream & is, int & i){
     string s;
     is >> s;
     string st = run_unser(hexify(s));
 
-    long i;
     istringstream (st) >> i;
 cout << i << '\n';
 }
 
-void unserialize(std::istream & is, short &){
+void unserialize(std::istream & is, short & sh){
     string s;
     is >> s;
     string st = run_unser(hexify(s));
 
-    short sh;
     istringstream (st) >> sh;
 cout << sh << '\n';
 }
 
-void unserialize(std::istream & is , long &){
+void unserialize(std::istream & is , long & l){
     string s;
     is >> s;
     string st = run_unser(hexify(s));
 
-    long l;
     istringstream (st) >> l;
 cout << l << '\n';
 }
 
-void unserialize(std::istream & is, char &){
+void unserialize(std::istream & is, char & c){
     string s;
     is >> s;
     string st = run_unser(hexify(s));
-//cout << st << '\n';
-    char c;
+
     istringstream (st) >> c;
 cout << c << '\n';
 }
 
-void unserialize(std::istream & is, std::string &){
+void unserialize(std::istream & is, std::string & st){
     string s;
     stringstream ss;
     while(getline(is,s)){
         ss << s;
     }
-//cout << ss.str()<<'\n';
     s = hexify(ss.str());
-    string st = run_unser(s);
+    st = run_unser(s);
     st.pop_back();                          // removes unwanted \n from back
 cout << st << '\n';
 }
@@ -165,9 +197,20 @@ int main(){
     ostringstream oss; 
     bool t = true;
     serialize(t,oss);
-    serialize(short(8), oss);
-    serialize(int(300),oss);
-    serialize(long(800000), oss);
+    assert(oss.str()=="t");
+
+    ostringstream osssh; 
+    serialize(short(8), osssh);		  // ctor “cast”
+    assert(osssh.str() == "s" "\x10\x08");
+
+    ostringstream ossi;
+    serialize(int(8),ossi);
+    assert(ossi.str() == "i" "\x10\x08");
+
+    oss.str("");
+    serialize(0x123456789abcdef0L, oss);
+    assert(oss.str() == "l\x80\x12\x34\x56\x78\x9a\xbc\xde\xf0"s);
+
     serialize('c',oss);
     string str = "Jack";
     serialize(str,oss);
@@ -181,7 +224,7 @@ int main(){
     istringstream isss;
     string st;
     isss.str("S\x10\x0c"s "kakistocracy");
-    unserialize(isss, st); //assert(str == "kakistocracy");
+    unserialize(isss, st); assert(st == "kakistocracy");
 
     istringstream issc;
     char c;

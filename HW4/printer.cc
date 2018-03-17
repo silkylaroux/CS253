@@ -11,6 +11,35 @@ using namespace std;
 * This is a helper method which takes in a number and returns a char based on 
 * how big the value is. This is the tag that goes in front of the vnum
 */
+char check_tag_num(short num){ 
+    char temp_tag; 
+
+    if(num <= 32767 && num >= -32768){ 
+        temp_tag = 's'; 
+
+    }else if(num >= -2147483648  && num <= 2147483647){ 
+        temp_tag = 'i'; 
+
+    } else if(num > 2147483647 || num < -2147483648){ 
+        temp_tag = 'l'; 
+    } 
+    return temp_tag; 
+} 
+char check_tag_num(int num){ 
+    char temp_tag; 
+
+    // if(num <= 32767 && num >= -32768){ 
+    //     temp_tag = 's'; 
+
+    // }else 
+    if(num >= -2147483648  && num <= 2147483647){ 
+        temp_tag = 'i'; 
+
+    } else if(num > 2147483647 || num < -2147483648){ 
+        temp_tag = 'l'; 
+    } 
+    return temp_tag; 
+} 
 char check_tag_num(long num){ 
     char temp_tag; 
 
@@ -58,7 +87,7 @@ string string_from_num(long input){
         buffer<<'7' << setfill('0')<< setw(15) << hex << (input & 0x0fffffffffffff) << dec;
     
     }else{
-        buffer<<'8' << setfill('0')<< setw(17) << hex << (input & 0x0fffffffffffffff) << dec;
+        buffer<<'8' << setfill('0')<< setw(17) << hex << (input & 0xffffffffffffffff) << dec;
 
     }
  
@@ -79,14 +108,15 @@ string string_from_num(long input){
 * It's purpose is to go through each of the strings in the vector and print out 
 * sequentially the proper vnum for the string inside. It makes use of helper functions.
 */
-void print_vector(vector<string> vec){ 
+string print_vector(vector<string> vec){ 
     for(auto str: vec){ 
         stringstream buff;
         
         if(isdigit(str.at(0)) || str.at(0) == '-'){ 
             long x = stol(str);                     // These lines are used to create the 
+//cout << "printer: stol:" << x <<'\n';
             int tag_int = check_tag_num(x);         // tag for the type of integer in the vector 
-             
+//cout << "printer:" << string_from_num(x)<<'\n';
             buff << hex << tag_int  << " "<< dec << string_from_num(x) << '\n'; 
          
         } else if(str.at(0) == '\''){ 
@@ -111,7 +141,7 @@ void print_vector(vector<string> vec){
             }   
             buff << '\n'; 
         }
-        cout << buff.str();
+        return buff.str();
     }
 }
 

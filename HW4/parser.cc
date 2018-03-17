@@ -57,6 +57,7 @@ vector<string> parse(string str){
         } else if(begin_char == '-' || isdigit(begin_char)){
             int holder = str.find_first_not_of("1234567890-");
             s.push_back(str.substr(0,holder));
+//cout << "parser:" << str.substr(0,holder) << "\n"; 
             str = str.substr(holder);
             
         } else if(begin_char == '\0' || isspace(begin_char)){
