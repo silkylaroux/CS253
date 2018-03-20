@@ -9,20 +9,23 @@
 #include <stdlib.h>
 #include "runner.h"
 #include "unserParser.h"
-using namespace std; 
+using namespace std;
 
+/*
+*   This runs the serialization with the data given in a string.
+*/
 string run_ser(string st){
-//cout << st<< '\n';
     vector<string> tokens;
     stringstream buffer;
     buffer <<st <<" ";
-//cout << "runner:" << buffer.str() << '\n';
+
     tokens = parse(buffer.str());
     return print_vector(tokens);
 }
-
+/*
+*   This runs the unserialization with the data given in a string.
+*/
 string run_unser(string st){
-//cout << st<< '\n';
     vector<string> tokens;
     stringstream buffer;
     buffer <<st;

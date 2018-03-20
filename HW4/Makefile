@@ -1,6 +1,6 @@
 CXXFLAGS=-Wall -Werror -Wextra -Wfatal-errors
 assignment= hw4
-MAKEFILE_LIST = hw4.cc parser.cc printer.cc unserParser.cc runner.cc test.h unserParser.h runner.h Makefile
+MAKEFILE_LIST = hw4.cc parser.cc printer.cc unserParser.cc runner.cc test.h unserParser.h runner.h Makefile test2.h
 SOURCES = hw4.cc parser.cc printer.cc runner.cc unserParser.cc
 OSOURCES = hw4.o parser.o printer.o runner.o unserParser.o
 

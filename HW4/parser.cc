@@ -19,7 +19,6 @@ vector<string> parse(string str){
         if(begin_char == '"' && str.length()>1){
                 str = str.substr(1);
                 int holder = str.find_first_of('"');
-                //cout << str.find("\t");
                 s.push_back(str.substr(0, holder));
                 str = str.substr(holder+1);   
 
@@ -33,10 +32,7 @@ vector<string> parse(string str){
 
                     s.push_back("\'\t\'");
                     str = str.substr(hol2+1);}
-                //else{
-                    //cerr << "From [parser.cc] Incorrect input found: '" << str << '\n';
-                    //exit(0);
-                //}
+
             }else if(hol == 1 ){
                 str = "\'"+str;
                
@@ -57,7 +53,6 @@ vector<string> parse(string str){
         } else if(begin_char == '-' || isdigit(begin_char)){
             int holder = str.find_first_not_of("1234567890-");
             s.push_back(str.substr(0,holder));
-//cout << "parser:" << str.substr(0,holder) << "\n"; 
             str = str.substr(holder);
             
         } else if(begin_char == '\0' || isspace(begin_char)){

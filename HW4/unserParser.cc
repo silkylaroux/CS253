@@ -79,7 +79,6 @@ vector<string> unserial_parse(string input){
                     if(token_holder.length()>= ((ia * 2)+1)){
                         string holder = token_holder.substr(1,((ia*2)+1));  // temp var with actual value
 
-                        //stringstream ss2;
                         long long numVal;
 
                         if(is_negative(holder.at(0))){
@@ -119,7 +118,6 @@ vector<string> unserial_parse(string input){
 
             }else if(tag.compare("53")==0){                                 // if string 
                 unsigned long x = handle_int(token_holder);
-//cout << token_holder << "str: \n";
                 char str1 = token_holder.at(0);
                 unsigned int ia = str1 - '0';
                 
