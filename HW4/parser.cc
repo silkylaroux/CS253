@@ -1,8 +1,6 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include "test.h"
-#include "test2.h"
+#include "handler.h"
 using namespace std;
 /*
 * This method is used to parse a string and return a vector filled with strings.

@@ -2,12 +2,9 @@
 #include <iomanip> 
 #include <fstream> 
 #include <vector> 
-#include <iterator>
-#include <cassert> 
-#include "test.h"
+#include "handler.h"
 #include "runner.h"
-#include <unistd.h>
-#include <stdlib.h>
+//#include <cassert> 
 using namespace std; 
 
 string remove_spaces(string str) 

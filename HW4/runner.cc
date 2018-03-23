@@ -1,12 +1,6 @@
 #include <iostream> 
-#include <iomanip> 
-#include <fstream> 
 #include <vector> 
-#include <iterator> 
-#include <algorithm>
-#include "test.h"
-#include <unistd.h>
-#include <stdlib.h>
+#include "handler.h"
 #include "runner.h"
 #include "unserParser.h"
 using namespace std;
@@ -16,10 +10,8 @@ using namespace std;
 */
 string run_ser(string st){
     vector<string> tokens;
-    stringstream buffer;
-    buffer <<st <<" ";
-
-    tokens = parse(buffer.str());
+    st.push_back(' ');
+    tokens = parse(st);
     return print_vector(tokens);
 }
 /*
@@ -27,10 +19,7 @@ string run_ser(string st){
 */
 string run_unser(string st){
     vector<string> tokens;
-    stringstream buffer;
-    buffer <<st;
-
-    vector<string> vec = unserial_parse(buffer.str());
+    vector<string> vec = unserial_parse(st);
     return print_uns_vector(vec);
 }
 

@@ -1,10 +1,7 @@
 #include <iostream> 
 #include <iomanip> 
-#include <fstream> 
 #include <vector> 
-#include <iterator> 
-#include "test.h" 
-#include "test2.h"
+#include "handler.h" 
 using namespace std; 
  
 /* 
@@ -62,20 +59,20 @@ string string_from_num(long input){
 
     }
  
-    string holder = buffer.str(); 
+    /*string holder = buffer.str(); 
     buffer.str("");
 
     while(holder.length()>0){ 
         buffer << holder.substr(0,2) << " ";        // This chunck of code puts formats the        
         holder = holder.substr(2);                  // string stream to have spacing before return
     } 
-
+    */
     return buffer.str();
  
 } 
 
 /*
-* This function is afunction that takes in a vector of strings.
+* This function is a function that takes in a vector of strings.
 * It's purpose is to go through each of the strings in the vector and print out 
 * sequentially the proper vnum for the string inside. It makes use of helper functions.
 * it returns a string.
