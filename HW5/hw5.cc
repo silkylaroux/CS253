@@ -1,11 +1,14 @@
 #include <iostream> 
 #include <iomanip> 
 #include <fstream> 
-#include <vector> 
+#include <vector>
+#include <list>
+#include <iterator> 
 #include "handler.h"
 #include "runner.h"
-#include "hw4.h"
-//#include <cassert> 
+#include "hw5.h"
+#include <cassert>
+#include"Serial.h" 
 using namespace std; 
 
 string remove_spaces(string str) 
@@ -155,4 +158,39 @@ void unserialize(std::istream & is, std::string & st){
     s = hexify(ss.str());
     st = run_unser(s);
     st.pop_back();                          // removes unwanted \n from back
+}
+
+Serial::Serial(){
+
+}
+
+// void Serial::put(bool){}
+// void Serial::put(short){}
+// void Serial::put(int){}
+// void Serial::put(long){}
+// void Serial::put(char){}
+// void Serial::put(string){}
+
+// void Serial::get(bool &){
+
+// }
+// void Serial::get(short &){}
+// void Serial::get(int &){}
+// void Serial::get(long &){}
+// void Serial::get(char &){}
+// void Serial::get(string &){}
+
+string Serial::str(){
+    return serStr;
+}
+void Serial::str(string st){
+    serStr = "";
+    serStr = st;
+}
+
+bool Serial::empty(){
+    return serStr.empty();
+}
+unsigned int Serial::size(){
+    return serStr.size();
 }
